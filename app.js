@@ -78,6 +78,16 @@ if (expertiseSection) {
   section.className = 'spoken-language-section';
   section.innerHTML = `<p class="eyebrow">${languageProfile.eyebrow}</p><h2 class="section-title">${languageProfile.title}</h2><div class="language-grid">${languageProfile.items.map(([name, detail, level]) => `<article class="language-item"><div class="language-disc" style="--level:${level}"><span>${level}%</span></div><div><h3>${name}</h3><p class="muted">${detail}</p></div></article>`).join('')}</div>`;
   expertiseSection.insertAdjacentElement('afterend', section);
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    section.classList.add('is-visible');
+  } else {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-visible');
+      observer.unobserve(entry.target);
+    }, { threshold: 0.35 });
+    observer.observe(section);
+  }
 }
 
 const languageNavigation = [
