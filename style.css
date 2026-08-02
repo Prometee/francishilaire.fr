@@ -134,6 +134,7 @@ h3 { font-size: 1.28rem; letter-spacing: -.03em; margin-bottom: 7px; }
 .language-disc { display: grid; width: 92px; aspect-ratio: 1; place-items: center; border-radius: 50%; background: conic-gradient(var(--accent) calc(var(--level) * 1%), var(--line) 0); box-shadow: 0 0 26px color-mix(in srgb, var(--accent) 18%, transparent); }
 .language-disc::before { content: ""; grid-area: 1 / 1; width: calc(100% - 10px); aspect-ratio: 1; border-radius: inherit; background: var(--surface); }
 .language-disc span { position: relative; z-index: 1; font-size: .84rem; font-weight: 800; }
+.language-disc.is-high span { color: #06281d; }
 .project { min-height: 220px; display: flex; flex-direction: column; }
 .project-featured {
   grid-column: 1 / -1;

@@ -76,7 +76,7 @@ const expertiseSection = document.querySelectorAll('main > section')[1];
 if (expertiseSection) {
   const section = document.createElement('section');
   section.className = 'spoken-language-section';
-  section.innerHTML = `<p class="eyebrow">${languageProfile.eyebrow}</p><h2 class="section-title">${languageProfile.title}</h2><div class="language-grid">${languageProfile.items.map(([name, detail, level]) => `<article class="language-item"><div class="language-disc" style="--level:${level}"><span>${level}%</span></div><div><h3>${name}</h3><p class="muted">${detail}</p></div></article>`).join('')}</div>`;
+  section.innerHTML = `<p class="eyebrow">${languageProfile.eyebrow}</p><h2 class="section-title">${languageProfile.title}</h2><div class="language-grid">${languageProfile.items.map(([name, detail, level]) => `<article class="language-item"><div class="language-disc${level > 50 ? ' is-high' : ''}" style="--level:${level}"><span>${level}%</span></div><div><h3>${name}</h3><p class="muted">${detail}</p></div></article>`).join('')}</div>`;
   expertiseSection.insertAdjacentElement('afterend', section);
 }
 
