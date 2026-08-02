@@ -44,6 +44,29 @@ document.querySelectorAll('.timeline article').forEach((entry, index) => {
   entry.append(container);
 });
 
+const languageNavigation = [
+  ['Français', 'index.html', 'fr'],
+  ['English', 'en.html', 'en'],
+  ['Română', 'ro.html', 'ro'],
+  ['Polski', 'pl.html', 'pl'],
+  ['Español', 'es.html', 'es'],
+  ['Deutsch', 'de.html', 'de'],
+];
+document.querySelectorAll('.tools').forEach((navigation) => {
+  navigation.querySelectorAll('a[lang]').forEach((link) => link.remove());
+  const toggle = navigation.querySelector('[data-theme-toggle]');
+  const picker = document.createElement('select');
+  picker.className = 'language-picker';
+  picker.setAttribute('aria-label', 'Choisir la langue');
+  languageNavigation.forEach(([label, href, language]) => {
+    const option = new Option(label, href, false, language === document.documentElement.lang);
+    option.lang = language;
+    picker.add(option);
+  });
+  picker.addEventListener('change', () => window.location.assign(picker.value));
+  navigation.insertBefore(picker, toggle);
+});
+
 if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
   const artwork = document.querySelector('.art');
   artwork?.addEventListener('pointermove', (event) => {

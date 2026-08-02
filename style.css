@@ -38,6 +38,8 @@ a:hover { color: var(--accent); }
 .brand { font-weight: 800; letter-spacing: -.04em; text-decoration: none; }
 .tools, .links { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
 .tools a, .links a { font-size: .9rem; }
+.language-picker { appearance: none; min-height: 36px; padding: 7px 30px 7px 11px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink); font: inherit; font-size: .86rem; line-height: 1; cursor: pointer; }
+.language-picker:hover, .language-picker:focus { border-color: var(--accent); outline: none; }
 button { border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 999px; padding: 8px 12px; cursor: pointer; }
 button:hover { border-color: var(--accent); color: var(--accent); }
 .hero { min-height: 72vh; display: grid; grid-template-columns: 1.25fr .75fr; gap: 36px; align-items: center; padding: 72px 0; }
