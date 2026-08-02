@@ -44,6 +44,42 @@ document.querySelectorAll('.timeline article').forEach((entry, index) => {
   entry.append(container);
 });
 
+const spokenLanguages = {
+  fr: {
+    eyebrow: 'Langues', title: 'Des langues pour créer du lien.',
+    items: [['Français', 'Langue maternelle', 100], ['Anglais', 'Courant · appris à l’école dès 8 ans', 85], ['Espagnol', 'Notions · peu pratiqué', 35], ['Roumain', 'Quelques mots · langue de ma compagne, originaire de Moldavie', 15]],
+  },
+  en: {
+    eyebrow: 'Languages', title: 'Languages that create connections.',
+    items: [['French', 'Native language', 100], ['English', 'Fluent · learned at school from age 8', 85], ['Spanish', 'Basic knowledge · rarely practised', 35], ['Romanian', 'A few words · my partner is from Moldova', 15]],
+  },
+  ro: {
+    eyebrow: 'Limbi', title: 'Limbi care creează legături.',
+    items: [['Franceză', 'Limbă maternă', 100], ['Engleză', 'Avansat · învățată la școală de la 8 ani', 85], ['Spaniolă', 'Noțiuni · puțin practicată', 35], ['Română', 'Câteva cuvinte · limba partenerei mele, originară din Moldova', 15]],
+  },
+  pl: {
+    eyebrow: 'Języki', title: 'Języki, które budują relacje.',
+    items: [['Francuski', 'Język ojczysty', 100], ['Angielski', 'Biegły · nauka w szkole od 8. roku życia', 85], ['Hiszpański', 'Podstawy · rzadko używany', 35], ['Rumuński', 'Kilka słów · język mojej partnerki pochodzącej z Mołdawii', 15]],
+  },
+  es: {
+    eyebrow: 'Idiomas', title: 'Idiomas que crean vínculos.',
+    items: [['Francés', 'Lengua materna', 100], ['Inglés', 'Fluido · aprendido en la escuela desde los 8 años', 85], ['Español', 'Nociones · poco practicado', 35], ['Rumano', 'Algunas palabras · la lengua de mi pareja, originaria de Moldavia', 15]],
+  },
+  de: {
+    eyebrow: 'Sprachen', title: 'Sprachen, die Verbindungen schaffen.',
+    items: [['Französisch', 'Muttersprache', 100], ['Englisch', 'Fließend · seit dem achten Lebensjahr in der Schule gelernt', 85], ['Spanisch', 'Grundkenntnisse · selten praktiziert', 35], ['Rumänisch', 'Einige Wörter · die Sprache meiner Partnerin aus Moldau', 15]],
+  },
+};
+
+const languageProfile = spokenLanguages[document.documentElement.lang] ?? spokenLanguages.en;
+const expertiseSection = document.querySelectorAll('main > section')[1];
+if (expertiseSection) {
+  const section = document.createElement('section');
+  section.className = 'spoken-language-section';
+  section.innerHTML = `<p class="eyebrow">${languageProfile.eyebrow}</p><h2 class="section-title">${languageProfile.title}</h2><div class="language-grid">${languageProfile.items.map(([name, detail, level]) => `<article class="language-item"><div class="language-disc" style="--level:${level}"><span>${level}%</span></div><div><h3>${name}</h3><p class="muted">${detail}</p></div></article>`).join('')}</div>`;
+  expertiseSection.insertAdjacentElement('afterend', section);
+}
+
 const languageNavigation = [
   ['Français', 'index.html', 'fr'],
   ['English', 'en.html', 'en'],
