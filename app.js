@@ -187,6 +187,7 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
       [0.15, 0.67, 24, -19],
       [0.76, 0.72, -23, -17],
     ];
+    const easterEggSequence = [2, 1, 3, 0];
     let particles = [];
     let lastFrame = performance.now();
     let easterEggActive = false;
@@ -248,9 +249,9 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
     const selectToken = (index) => {
       if (easterEggActive) return;
       const expectedIndex = selectedTokens.length;
-      if (index !== expectedIndex) {
+      if (index !== easterEggSequence[expectedIndex]) {
         tokens.forEach((token) => token.classList.remove('is-selected'));
-        selectedTokens = index === 0 ? [0] : [];
+        selectedTokens = index === easterEggSequence[0] ? [index] : [];
       } else {
         selectedTokens.push(index);
       }
