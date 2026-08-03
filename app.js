@@ -133,7 +133,7 @@ if (
   && localStorage.getItem(languageSuggestionKey) !== preferredSiteLanguage
 ) {
   const suggestion = availableSiteLanguages.get(preferredSiteLanguage);
-  const copy = languageSuggestionCopy[document.documentElement.lang] ?? languageSuggestionCopy.en;
+  const copy = languageSuggestionCopy[preferredSiteLanguage] ?? languageSuggestionCopy.en;
   const dialog = document.createElement('aside');
   dialog.className = 'language-suggestion';
   dialog.setAttribute('role', 'dialog');
