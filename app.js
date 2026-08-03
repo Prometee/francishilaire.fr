@@ -174,7 +174,8 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
     artwork.setAttribute('aria-label', isFrench ? 'Technologies et environnements associés' : 'Associated technologies and environments');
     artwork.querySelector('.credit-card')?.setAttribute('aria-hidden', 'true');
     tokens.forEach((token, index) => {
-      token.setAttribute('role', 'img');
+      token.setAttribute('role', 'button');
+      token.setAttribute('tabindex', '0');
       token.setAttribute('aria-label', tokenLabels[index]);
       token.setAttribute('title', tokenLabels[index]);
       token.dataset.label = tokenLabels[index];
@@ -188,6 +189,13 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
     ];
     let particles = [];
     let lastFrame = performance.now();
+    let easterEggActive = false;
+    let selectedTokens = [];
+    const easterEggMessage = document.createElement('p');
+    easterEggMessage.className = 'easter-egg-message';
+    easterEggMessage.setAttribute('aria-live', 'polite');
+    easterEggMessage.textContent = 'You’re breathtaking!';
+    artwork.append(easterEggMessage);
 
     const resetParticles = () => {
       const bounds = artwork.getBoundingClientRect();
@@ -209,9 +217,63 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
       particle.element.style.transform = `translate3d(${particle.x}px, ${particle.y}px, 0)`;
     });
 
+    const triggerEasterEgg = () => {
+      easterEggActive = true;
+      selectedTokens = [];
+      tokens.forEach((token) => token.classList.remove('is-selected'));
+      artwork.classList.add('is-easter-egg');
+      easterEggMessage.classList.add('is-visible');
+
+      const bounds = artwork.getBoundingClientRect();
+      const formation = [[0, -62], [62, 0], [0, 62], [-62, 0]];
+      particles.forEach((particle, index) => {
+        const [offsetX, offsetY] = formation[index];
+        particle.x = bounds.width / 2 + offsetX - particle.width / 2;
+        particle.y = bounds.height / 2 + offsetY - particle.height / 2;
+        particle.vx = 0;
+        particle.vy = 0;
+      });
+      render();
+
+      window.setTimeout(() => {
+        easterEggActive = false;
+        artwork.classList.remove('is-easter-egg');
+        easterEggMessage.classList.remove('is-visible');
+        resetParticles();
+        render();
+        lastFrame = performance.now();
+      }, 3200);
+    };
+
+    const selectToken = (index) => {
+      if (easterEggActive) return;
+      const expectedIndex = selectedTokens.length;
+      if (index !== expectedIndex) {
+        tokens.forEach((token) => token.classList.remove('is-selected'));
+        selectedTokens = index === 0 ? [0] : [];
+      } else {
+        selectedTokens.push(index);
+      }
+      selectedTokens.forEach((selectedIndex) => tokens[selectedIndex].classList.add('is-selected'));
+      if (selectedTokens.length === tokens.length) triggerEasterEgg();
+    };
+
+    tokens.forEach((token, index) => {
+      token.addEventListener('click', () => selectToken(index));
+      token.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault();
+        selectToken(index);
+      });
+    });
+
     const animateTokens = (time) => {
       const elapsed = Math.min((time - lastFrame) / 1000, 0.05);
       lastFrame = time;
+      if (easterEggActive) {
+        requestAnimationFrame(animateTokens);
+        return;
+      }
       const bounds = artwork.getBoundingClientRect();
 
       particles.forEach((particle) => {
@@ -266,7 +328,12 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
     artwork.classList.add('is-collision-simulation');
     resetParticles();
     render();
-    window.addEventListener('resize', resetParticles);
+    window.addEventListener('resize', () => {
+      if (!easterEggActive) {
+        resetParticles();
+        render();
+      }
+    });
     requestAnimationFrame(animateTokens);
   }
 }

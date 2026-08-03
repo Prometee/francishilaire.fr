@@ -96,6 +96,8 @@ h1 em { color: var(--accent); font-style: normal; }
 .card-holder { left: 23px; bottom: 21px; font-size: .56rem; }
 .card-wave { right: 22px; bottom: 20px; font-size: 1.2rem; transform: rotate(90deg) translateZ(22px) !important; }
 .tech-token { position: absolute; z-index: 2; display: grid; width: 76px; height: 76px; place-items: center; border: 1px solid color-mix(in srgb, var(--accent) 42%, var(--line)); border-radius: 50%; background: color-mix(in srgb, var(--surface) 84%, transparent); box-shadow: 0 12px 28px rgba(0,0,0,.2), inset 0 1px rgba(255,255,255,.14); backdrop-filter: blur(5px); animation: token-float 7s ease-in-out infinite; }
+.tech-token { cursor: pointer; }
+.tech-token:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
 .tech-token img { width: 47px; height: 47px; object-fit: contain; filter: drop-shadow(0 3px 8px rgba(0,0,0,.26)); }
 .tech-token::after { content: attr(data-label); position: absolute; z-index: 3; left: 50%; top: calc(100% + 10px); width: max-content; max-width: 150px; padding: 5px 8px; border: 1px solid var(--line); border-radius: 999px; background: var(--page); color: var(--ink); font-size: .68rem; font-weight: 750; line-height: 1.2; text-align: center; opacity: 0; pointer-events: none; transform: translate(-50%, -4px); transition: opacity .18s ease, transform .18s ease; }
 .tech-token:hover::after { opacity: 1; transform: translate(-50%, 0); }
@@ -106,6 +108,11 @@ h1 em { color: var(--accent); font-style: normal; }
 .token-flux { right: 4%; bottom: 8%; width: 64px; height: 64px; animation-delay: -1.2s; }
 .token-flux img { width: 42px; height: 42px; }
 .art.is-collision-simulation .tech-token { top: 0; right: auto; bottom: auto; left: 0; animation: none; will-change: transform; }
+.art.is-collision-simulation .tech-token.is-selected { border-color: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 20%, transparent), 0 12px 28px rgba(0,0,0,.2); }
+.art.is-easter-egg .tech-token { transition: transform .72s cubic-bezier(.2,.8,.2,1), opacity .28s ease; }
+.art.is-easter-egg .tech-token::after { opacity: 0; }
+.easter-egg-message { position: absolute; z-index: 3; top: 50%; left: 50%; margin: 0; color: var(--ink); font-size: clamp(1.25rem, 3vw, 2rem); font-weight: 800; letter-spacing: -.05em; opacity: 0; pointer-events: none; text-align: center; text-shadow: 0 2px 20px var(--surface); transform: translate(-50%, -50%) scale(.9); transition: opacity .32s ease .45s, transform .5s cubic-bezier(.2,.8,.2,1) .45s; }
+.easter-egg-message.is-visible { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 @keyframes orbit-breathe { 50% { transform: translate(-13px, 14px) scale(1.045); opacity: .72; } }
 @keyframes dot-pulse { 50% { transform: translateY(-14px) scale(1.18); box-shadow: 0 0 64px var(--accent-strong); } }
 @keyframes route-turn { to { transform: rotate(360deg); } }
