@@ -111,8 +111,8 @@ h1 em { color: var(--accent); font-style: normal; }
 .art.is-collision-simulation .tech-token.is-selected { border-color: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 20%, transparent), 0 12px 28px rgba(0,0,0,.2); }
 .art.is-easter-egg .tech-token { transition: transform .72s cubic-bezier(.2,.8,.2,1), opacity .28s ease; }
 .art.is-easter-egg .tech-token::after { opacity: 0; }
-.easter-egg-message { position: absolute; z-index: 3; top: 50%; left: 50%; margin: 0; color: var(--ink); font-size: clamp(1.25rem, 3vw, 2rem); font-weight: 800; letter-spacing: -.05em; opacity: 0; pointer-events: none; text-align: center; text-shadow: 0 2px 20px var(--surface); transform: translate(-50%, -50%) scale(.9); transition: opacity .32s ease .45s, transform .5s cubic-bezier(.2,.8,.2,1) .45s; }
-.easter-egg-message.is-visible { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.easter-egg-gif { position: absolute; z-index: 3; top: 50%; left: 50%; width: min(230px, 54%); margin: 0; border: 1px solid color-mix(in srgb, var(--accent) 58%, var(--line)); border-radius: 12px; box-shadow: 0 18px 38px color-mix(in srgb, var(--ink) 32%, transparent); opacity: 0; pointer-events: none; transform: translate(-50%, -50%) scale(.88); transition: opacity .32s ease .45s, transform .5s cubic-bezier(.2,.8,.2,1) .45s; }
+.easter-egg-gif.is-visible { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 @keyframes orbit-breathe { 50% { transform: translate(-13px, 14px) scale(1.045); opacity: .72; } }
 @keyframes dot-pulse { 50% { transform: translateY(-14px) scale(1.18); box-shadow: 0 0 64px var(--accent-strong); } }
 @keyframes route-turn { to { transform: rotate(360deg); } }

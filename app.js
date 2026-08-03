@@ -192,11 +192,12 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
     let lastFrame = performance.now();
     let easterEggActive = false;
     let selectedTokens = [];
-    const easterEggMessage = document.createElement('p');
-    easterEggMessage.className = 'easter-egg-message';
-    easterEggMessage.setAttribute('aria-live', 'polite');
-    easterEggMessage.textContent = 'You’re breathtaking!';
-    artwork.append(easterEggMessage);
+    const easterEggGif = document.createElement('img');
+    easterEggGif.className = 'easter-egg-gif';
+    easterEggGif.dataset.src = 'https://media1.tenor.com/m/k2gEG9LFr8wAAAAd/keanu-reeves-you-are.gif';
+    easterEggGif.alt = 'Keanu Reeves sur scène, répondant « You’re breathtaking! »';
+    easterEggGif.referrerPolicy = 'no-referrer';
+    artwork.append(easterEggGif);
 
     const resetParticles = () => {
       const bounds = artwork.getBoundingClientRect();
@@ -223,10 +224,13 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
       selectedTokens = [];
       tokens.forEach((token) => token.classList.remove('is-selected'));
       artwork.classList.add('is-easter-egg');
-      easterEggMessage.classList.add('is-visible');
+      if (!easterEggGif.hasAttribute('src')) easterEggGif.src = easterEggGif.dataset.src;
+      easterEggGif.classList.add('is-visible');
 
       const bounds = artwork.getBoundingClientRect();
-      const formation = [[0, -62], [62, 0], [0, 62], [-62, 0]];
+      const radiusX = Math.min(116, Math.max(48, (bounds.width - 76) / 2 - 20));
+      const radiusY = Math.min(78, Math.max(42, (bounds.height - 76) / 2 - 20));
+      const formation = [[-radiusX, -radiusY], [radiusX, -radiusY], [radiusX, radiusY], [-radiusX, radiusY]];
       particles.forEach((particle, index) => {
         const [offsetX, offsetY] = formation[index];
         particle.x = bounds.width / 2 + offsetX - particle.width / 2;
@@ -239,7 +243,7 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
       window.setTimeout(() => {
         easterEggActive = false;
         artwork.classList.remove('is-easter-egg');
-        easterEggMessage.classList.remove('is-visible');
+        easterEggGif.classList.remove('is-visible');
         resetParticles();
         render();
         lastFrame = performance.now();
