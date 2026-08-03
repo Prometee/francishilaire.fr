@@ -113,6 +113,42 @@ document.querySelectorAll('.tools').forEach((navigation) => {
   navigation.insertBefore(picker, toggle);
 });
 
+const availableSiteLanguages = new Map(languageNavigation.map(([label, href, language]) => [language, { label, href }]));
+const preferredSiteLanguage = (navigator.languages?.length ? navigator.languages : [navigator.language])
+  .map((language) => language.toLowerCase().split('-')[0])
+  .find((language) => availableSiteLanguages.has(language));
+const languageSuggestionKey = 'language-suggestion-dismissed';
+const languageSuggestionCopy = {
+  fr: { title: 'Une version dans votre langue est disponible.', question: 'Souhaitez-vous consulter le site en', switch: 'Passer en', stay: 'Rester sur cette version' },
+  en: { title: 'A version in your language is available.', question: 'Would you like to view the site in', switch: 'Switch to', stay: 'Stay on this version' },
+  ro: { title: 'Este disponibilă o versiune în limba ta.', question: 'Dorești să vezi site-ul în', switch: 'Treci la', stay: 'Rămâi la această versiune' },
+  pl: { title: 'Dostępna jest wersja w Twoim języku.', question: 'Czy chcesz zobaczyć stronę po', switch: 'Przejdź na', stay: 'Pozostań przy tej wersji' },
+  es: { title: 'Hay una versión disponible en tu idioma.', question: '¿Quieres ver el sitio en', switch: 'Cambiar a', stay: 'Seguir en esta versión' },
+  de: { title: 'Eine Version in deiner Sprache ist verfügbar.', question: 'Möchtest du die Website auf', switch: 'Wechseln zu', stay: 'Bei dieser Version bleiben' },
+};
+
+if (
+  preferredSiteLanguage
+  && preferredSiteLanguage !== document.documentElement.lang
+  && localStorage.getItem(languageSuggestionKey) !== preferredSiteLanguage
+) {
+  const suggestion = availableSiteLanguages.get(preferredSiteLanguage);
+  const copy = languageSuggestionCopy[document.documentElement.lang] ?? languageSuggestionCopy.en;
+  const dialog = document.createElement('aside');
+  dialog.className = 'language-suggestion';
+  dialog.setAttribute('role', 'dialog');
+  dialog.setAttribute('aria-labelledby', 'language-suggestion-title');
+  dialog.innerHTML = `<p class="language-suggestion__eyebrow">${suggestion.label}</p><h2 id="language-suggestion-title">${copy.title}</h2><p>${copy.question} ${suggestion.label} ?</p><div class="language-suggestion__actions"><a class="cta" href="${suggestion.href}">${copy.switch} ${suggestion.label}</a><button type="button" data-language-suggestion-close>${copy.stay}</button></div>`;
+  document.body.append(dialog);
+  requestAnimationFrame(() => dialog.classList.add('is-visible'));
+
+  dialog.querySelector('[data-language-suggestion-close]')?.addEventListener('click', () => {
+    localStorage.setItem(languageSuggestionKey, preferredSiteLanguage);
+    dialog.classList.remove('is-visible');
+    window.setTimeout(() => dialog.remove(), 220);
+  });
+}
+
 if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
   const artwork = document.querySelector('.art');
   artwork?.addEventListener('pointermove', (event) => {
